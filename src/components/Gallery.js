@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Photo from "./Photo/index.js"
+import Photo from "./Photo/index.js";
 
 const PhotosContainer = styled.div`
     flex: 1,
@@ -28,7 +28,7 @@ export default class Gallery extends Component {
                     title: pic.title,
                     owner: pic.owner,
                     imageUrl: 'https://farm'+pic.farm+'.staticflickr.com/'+pic.server+'/'+pic.id+'_'+pic.secret+'.jpg'
-                })
+                });
             });
             this.setState({photos: picArray});
         }.bind(this));
@@ -42,7 +42,7 @@ export default class Gallery extends Component {
                 <PhotosContainer>
                     {photos.map((photo) => {
                         return (
-                            <Photo photo={photo}/>
+                            <Photo photo={photo} key={photo.title}/>
                         );
                     })}
                 </PhotosContainer>

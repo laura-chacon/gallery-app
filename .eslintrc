@@ -1,0 +1,22 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "plugins": [
+        "react"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "rules": {
+        "semi": 2
+    },
+    "globals": {
+        "Promise": false,
+        "require": false,
+        "setImmediate": false,
+    }
+}
