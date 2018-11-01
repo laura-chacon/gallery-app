@@ -4,7 +4,7 @@
   "description": "Simple gallery app",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --env.FLICKR_API_KEY=${FLICKR_API_KEY}",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
