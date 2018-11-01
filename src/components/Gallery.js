@@ -10,14 +10,20 @@ export default class Gallery extends Component {
     }
 
     componentDidMount() {
-      console.log('process.env.FLICKR_API_KEY', process.env.FLICKR_API_KEY)
       fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key='+process.env.FLICKR_API_KEY+'&tags=nyc&per_page=10&page=1&format=json&nojsoncallback=1')
         .then(function(response){
             return response.json();
         })
         .then(function(jsonResponse){
-            console.log('jsonResponse', JSON.stringify(jsonResponse))
-        })
+            let picArray = jsonResponse.photos.photo.map((pic) => {
+                return({
+                    title: pic.title,
+                    owner: pic.owner,
+                    imageUrl: 'https://farm'+pic.farm+'.staticflickr.com/'+pic.server+'/'+pic.id+'_'+pic.secret+'.jpg'
+                })
+            })
+            this.setState({images: picArray});
+        }.bind(this));
     }
 
     render() {
