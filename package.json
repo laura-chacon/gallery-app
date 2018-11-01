@@ -4,7 +4,7 @@
   "description": "Simple gallery app",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --env.FLICKR_API_KEY=${FLICKR_API_KEY}",
+    "start": "webpack-dev-server --env.FLICKR_API_KEY=${FLICKR_API_KEY} --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,6 +31,7 @@
   "dependencies": {
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
+    "styled-components": "^4.0.3",
     "webpack-cli": "^3.1.2"
   }
 }

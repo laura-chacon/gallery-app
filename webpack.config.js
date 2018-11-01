@@ -8,14 +8,12 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 })
 
 module.exports = (env) => {
-  console.log("Before");
-  console.log(env);
+
   const envKeys = Object.keys(env).reduce((acc, key) => {
     acc[`process.env.${key}`] = JSON.stringify(env[key]);
     return acc;
   }, {});
-  console.log("After");
-  console.log(envKeys);
+
   return {
     entry: {
       app: './src/index.js'
@@ -37,6 +35,7 @@ module.exports = (env) => {
     resolve: {
         extensions: ['.js', '.jsx']
     },
+    performance: { hints: false },
     plugins: [
       HtmlWebpackPluginConfig,
       new webpack.DefinePlugin(envKeys),
