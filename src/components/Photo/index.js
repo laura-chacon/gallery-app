@@ -10,43 +10,45 @@ const OwnerText = styled.div`
 
 `;
 
-const url = 'https://api.flickr.com/services/rest/';
-
 export default class Photo extends Component {
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+    };
+  }
 
-  constructor(){
-        super();
-        this.state = {
-            username: '',
-        };
-    }
+  componentDidMount() {
+    const { photo } = this.props;
+    const url = `https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=${process.env.FLICKR_API_KEY}&user_id=${photo.owner}&format=json&nojsoncallback=1`;
+    fetch(url)
+      .then(response => response.json())
+      .then((jsonResponse) => {
+        this.setState({ username: jsonResponse.person.username._content });
+      })
+      .bind(this);
+  }
 
-    componentDidMount() {
-        fetch(url+'?method=flickr.people.getInfo'+
-        '&api_key='+process.env.FLICKR_API_KEY+'&user_id='+this.props.photo.owner+
-        '&format=json&nojsoncallback=1')
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(jsonResponse) {
-                this.setState({username: jsonResponse.person.username._content});
-            }
-            .bind(this));
-    }
-
-    render() {
-        let {title, owner, imageUrl} = this.props.photo;
-        let {username} = this.state;
-        return (
-            <PhotoContainer key = {owner}>
-                <img alt={title} src={imageUrl}/>
-                <OwnerText>{username}</OwnerText>
-            </PhotoContainer>
-        );
-    }
+  render() {
+    const { photo } = this.props;
+    const { username } = this.state;
+    return (
+      <PhotoContainer key={photo.owner}>
+        <img alt={photo.title} src={photo.imageUrl} />
+        <OwnerText>{username}</OwnerText>
+      </PhotoContainer>
+    );
+  }
 }
 
-
 Photo.propTypes = {
-    photo: PropTypes.obj,
+  photo: PropTypes.shape({
+    title: PropTypes.string,
+    owner: PropTypes.string,
+    imageUrl: PropTypes.string,
+  }),
+};
+
+Photo.defaultProps = {
+  photo: {},
 };

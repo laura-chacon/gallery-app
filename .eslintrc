@@ -2,21 +2,12 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
-        "node": true
+        "node": true,
+        "es6": true
     },
-    "plugins": [
-        "react"
-    ],
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
-    ],
+    "extends": "airbnb",
     "rules": {
-        "semi": 2
-    },
-    "globals": {
-        "Promise": false,
-        "require": false,
-        "setImmediate": false,
+      "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"]}],
+      "no-underscore-dangle": [2, {"allow": ["_content"]}]
     }
 }
