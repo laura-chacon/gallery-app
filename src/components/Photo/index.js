@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { FaStar, FaComment } from 'react-icons/fa';
 
 const PhotoContainer = styled.div`
   margin: 10px;
   position: relative;
-
-`;
-
-const EmptyImage = styled.div`
-width: 100%;
-height: 250px;
-background-color: rgba(64,64,64,0.3);
 `;
 
 const PhotoImage = styled.img`
@@ -33,21 +27,31 @@ const Overlay = styled.div`
 `;
 
 const PhotoInformation = styled.div`
+  display: flex;
+  justify-content: space-between;
   width: 100%;
+  height: 50px;
   position: absolute;
-  bottom: 40%;
+  bottom: -22px;
   left: 50%;
   color: white;
   font-size: 20px;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  text-align: center;
+  text-align: left;
+  background-image: linear-gradient(transparent, #000000);
+`;
+
+const CaptionAndUsername = styled.div`
+  padding: 0 10px;
+  width: 60%;
 `;
 
 const OwnerText = styled.div`
   cursor: pointer;
   height: 20px;
+  font-size: 16px;
 `;
 
 const TitleText = styled.div`
@@ -55,7 +59,22 @@ const TitleText = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+    margin-bottom: 5px;
+  font-size: 18px;
+`;
 
+const FavsAndComments = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+`;
+
+const Comments = styled.div`
+  margin: 0 5px;
+`;
+
+const Faves = styled.div`
+  margin: 0 5px;
 `;
 
 export default class Photo extends Component {
@@ -97,29 +116,45 @@ export default class Photo extends Component {
 
   renderImage() {
     const { photo } = this.props;
-    if (photo.imageUrl !== undefined) {
-      return <PhotoImage src={photo.imageUrl} />;
-    }
-    return null;
+    return <PhotoImage src={photo.imageUrl} />;
+  }
+
+  renderCaptionAndUsername() {
+    const { photo } = this.props;
+    const { username } = this.state;
+    const usernameText = `by ${username}`;
+    return (
+      <CaptionAndUsername>
+        <TitleText>{photo.title}</TitleText>
+        <OwnerText onClick={this.handleOnClickUsername}>
+          {usernameText}
+        </OwnerText>
+      </CaptionAndUsername>
+    );
+  }
+
+  renderFavsAndComments() {
+    const { photo } = this.props;
+    return (
+      <FavsAndComments>
+        <FaStar />
+        <Comments>{photo.count_comments}</Comments>
+        <FaComment />
+        <Faves>{photo.count_faves}</Faves>
+      </FavsAndComments>
+    );
   }
 
   renderOverlay() {
-    const { photo } = this.props;
-    const { username, hovering } = this.state;
-    if (photo.imageUrl !== undefined) {
-      return (
-        <Overlay opacity={hovering ? 1 : 0}>
-          <PhotoInformation>
-            <TitleText>{photo.title}</TitleText>
-            <OwnerText onClick={this.handleOnClickUsername}>
-              by
-              {username}
-            </OwnerText>
-          </PhotoInformation>
-        </Overlay>
-      )
-    }
-    return null;
+    const { hovering } = this.state;
+    return (
+      <Overlay opacity={hovering ? 1 : 0}>
+        <PhotoInformation>
+          {this.renderCaptionAndUsername()}
+          {this.renderFavsAndComments()}
+        </PhotoInformation>
+      </Overlay>
+    );
   }
 
   render() {
@@ -143,6 +178,8 @@ Photo.propTypes = {
     owner: PropTypes.string,
     id: PropTypes.string,
     imageUrl: PropTypes.string,
+    count_comments: PropTypes.string,
+    count_faves: PropTypes.string,
   }),
 };
 

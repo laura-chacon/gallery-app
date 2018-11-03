@@ -18,16 +18,17 @@ export default class Gallery extends Component {
   }
 
   componentDidMount() {
-    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${process.env.FLICKR_API_KEY}&tags=nyc&per_page=20&page=1&format=json&content_type=1&nojsoncallback=1&extras=count_comments,count_faves,url_o&sort=interestingness-desc&extras=url_o`;
+    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${process.env.FLICKR_API_KEY}&tags=nyc&per_page=5&page=1&format=json&content_type=1&nojsoncallback=1&license=1,2,3,4,5,6,7,8,9,10&extras=count_comments,count_faves,url_z&sort=interestingness-desc`;
     fetch(url)
       .then(response => response.json())
       .then((jsonResponse) => {
-        console.log('jsonResponse',jsonResponse)
         const picArray = jsonResponse.photos.photo.map(pic => ({
           title: pic.title,
           owner: pic.owner,
           id: pic.id,
-          imageUrl: pic.url_o,
+          imageUrl: pic.url_z,
+          count_comments: pic.count_comments,
+          count_faves: pic.count_faves,
         }));
         this.setState({ photos: picArray });
       })

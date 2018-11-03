@@ -41,6 +41,7 @@
     "react": "^16.6.0",
     "react-columns": "^1.2.0",
     "react-dom": "^16.6.0",
+    "react-icons": "^3.2.2",
     "styled-components": "^4.0.3",
     "webpack-cli": "^3.1.2"
   }
