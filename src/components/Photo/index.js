@@ -116,7 +116,11 @@ export default class Photo extends Component {
 
   renderImage() {
     const { photo } = this.props;
-    return <PhotoImage src={photo.imageUrl} />;
+    return (
+      <PhotoImage
+        src={photo.imageUrl}
+      />
+    );
   }
 
   renderCaptionAndUsername() {
@@ -147,8 +151,12 @@ export default class Photo extends Component {
 
   renderOverlay() {
     const { hovering } = this.state;
+    const { photo, onImageClick } = this.props;
     return (
-      <Overlay opacity={hovering ? 1 : 0}>
+      <Overlay
+        onClick={() => onImageClick(photo.id)}
+        opacity={hovering ? 1 : 0}
+      >
         <PhotoInformation>
           {this.renderCaptionAndUsername()}
           {this.renderFavsAndComments()}
@@ -181,8 +189,10 @@ Photo.propTypes = {
     count_comments: PropTypes.string,
     count_faves: PropTypes.string,
   }),
+  onImageClick: PropTypes.func,
 };
 
 Photo.defaultProps = {
   photo: {},
+  onImageClick: () => {},
 };
