@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Columns from 'react-columns';
+import ReactPaginate from 'react-paginate';
 import Photo from './Photo';
 import PhotoLightbox from './PhotoLightbox';
+import './pagination.css';
+
+const rangePage = 6;
 
 const PhotosContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+`;
+
+const ReactPaginateContainer = styled.div`
+  display: flex;
   justify-content: center;
 `;
 
@@ -17,6 +26,8 @@ export default class Gallery extends Component {
       photos: [],
       ligthboxIsOpen: false,
       lightboxPhotoIndex: -1,
+      pageNumber: 1,
+      totalPages: 0,
     };
 
     this.openLightBox = this.openLightBox.bind(this);
@@ -24,7 +35,12 @@ export default class Gallery extends Component {
   }
 
   componentDidMount() {
-    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${process.env.FLICKR_API_KEY}&tags=nyc&per_page=6&page=1&format=json&content_type=1&nojsoncallback=1&license=1,2,3,4,5,6,7,8,9,10&extras=count_comments,count_faves,url_z&sort=interestingness-desc`;
+    const { pageNumber } = this.state;
+    this.getPhotos(pageNumber);
+  }
+
+  getPhotos(nextPageNumber) {
+    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${process.env.FLICKR_API_KEY}&tags=nyc&per_page=${rangePage}&page=${nextPageNumber}&format=json&content_type=1&nojsoncallback=1&license=1,2,3,4,5,6,7,8,9,10&extras=count_comments,count_faves,url_z&sort=interestingness-desc`;
     fetch(url)
       .then(response => response.json())
       .then((jsonResponse) => {
@@ -36,7 +52,11 @@ export default class Gallery extends Component {
           count_comments: pic.count_comments,
           count_faves: pic.count_faves,
         }));
-        this.setState({ photos: picArray });
+        this.setState({
+          photos: picArray,
+          totalPages: jsonResponse.photos.pages,
+          pageNumber: nextPageNumber,
+        });
       })
       .catch(error => console.error(error));
   }
@@ -55,6 +75,22 @@ export default class Gallery extends Component {
       ligthboxIsOpen: false,
       lightboxPhotoIndex: -1,
     });
+  }
+
+  renderPagination() {
+    const { totalPages } = this.state;
+    return (
+      <ReactPaginateContainer>
+        <ReactPaginate
+          containerClassName="pagination"
+          pageCount={totalPages}
+          breakLabel={<a href="">...</a>}
+          marginPagesDisplayed={0}
+          pageRangeDisplayed={2}
+          onPageChange={nextPageNumber => this.getPhotos(nextPageNumber.selected + 1)}
+        />
+      </ReactPaginateContainer>
+    );
   }
 
   render() {
@@ -82,6 +118,7 @@ export default class Gallery extends Component {
             })}
           </Columns>
         </PhotosContainer>
+        {this.renderPagination()}
         {ligthboxIsOpen
           ? (
             <PhotoLightbox
