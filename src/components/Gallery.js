@@ -7,7 +7,7 @@ import PhotoLightbox from './PhotoLightbox';
 import './index.css';
 import { searchPhotos } from '../utils/flickr_api';
 
-const photosPerPage = 6;
+const photosPerPage = 15;
 
 const PhotosContainer = styled.div`
   display: flex;
