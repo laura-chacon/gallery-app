@@ -4,7 +4,7 @@ import Columns from 'react-columns';
 import ReactPaginate from 'react-paginate';
 import Photo from './Photo';
 import PhotoLightbox from './PhotoLightbox';
-import './pagination.css';
+import './index.css';
 import { searchPhotos } from '../utils/flickr_api';
 
 const photosPerPage = 6;
@@ -41,9 +41,9 @@ export default class Gallery extends Component {
   }
 
   getPhotos(pageNumber) {
-    searchPhotos(photosPerPage)
-      .then((searchResult) => {
-        this.setState(searchResult);
+    searchPhotos(pageNumber, photosPerPage)
+      .then((newState) => {
+        this.setState(Object.assign(newState, { pageNumber }));
       });
   }
 

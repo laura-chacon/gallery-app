@@ -16,7 +16,7 @@ function commonQueryStringParams() {
   };
 }
 
-function searchPhotos(photosPerPage) {
+function searchPhotos(pageNumber, photosPerPage) {
   const qs = Object.assign({
     method: 'flickr.photos.search',
     tags: 'nyc',
@@ -24,6 +24,7 @@ function searchPhotos(photosPerPage) {
     extras: 'count_comments,count_faves,url_z',
     sort: 'interestingness-desc',
     per_page: photosPerPage,
+    page: pageNumber,
   }, commonQueryStringParams());
   const url = `${baseUrl()}?${objectToQueryString(qs)}`;
   return fetch(url)
