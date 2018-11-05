@@ -25,6 +25,7 @@ const Overlay = styled.div`
   width: 100%;
   opacity: ${props => props.opacity};
   transition: .5s ease;
+  cursor: pointer;
 `;
 
 const PhotoInformation = styled.div`
