@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Lightbox from 'react-image-lightbox';
 import PropTypes from 'prop-types';
-import InfoPhotoLightbox from './InfoPhotoLightbox';
+import PhotoLightboxInfo from './PhotoLightboxInfo';
 import { getPhotoInfo } from '../utils/flickr_api';
 
 export default class PhotoLightbox extends Component {
@@ -39,7 +39,7 @@ export default class PhotoLightbox extends Component {
         mainSrc={photo.imageUrl}
         imageTitle={(<div>{textTitle}</div>)}
         imageCaption={(
-          <InfoPhotoLightbox
+          <PhotoLightboxInfo
             location={location}
             date={date}
             tags={tags}

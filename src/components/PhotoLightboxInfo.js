@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const InfoPhotoLightboxContainer = styled.div`
 `;
 
-export default class InfoPhotoLightbox extends Component {
+export default class PhotoLightboxInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ export default class InfoPhotoLightbox extends Component {
 
   static getFirstRow(props) {
     const { date } = props;
-    const location = InfoPhotoLightbox.getLocation(props);
+    const location = PhotoLightboxInfo.getLocation(props);
     let row = '';
     if (location) {
       row += `📍 ${location}`;
@@ -72,10 +72,10 @@ export default class InfoPhotoLightbox extends Component {
   }
 
   render() {
-    const firstRow = InfoPhotoLightbox.getFirstRow(this.props);
-    const secondRow = InfoPhotoLightbox.getSecondRow(this.props);
-    const thirdRow = InfoPhotoLightbox.getThirdRow(this.props);
-    const fourthRow = InfoPhotoLightbox.getFourthRow(this.props);
+    const firstRow = PhotoLightboxInfo.getFirstRow(this.props);
+    const secondRow = PhotoLightboxInfo.getSecondRow(this.props);
+    const thirdRow = PhotoLightboxInfo.getThirdRow(this.props);
+    const fourthRow = PhotoLightboxInfo.getFourthRow(this.props);
     return (
       <InfoPhotoLightboxContainer>
         <div>{firstRow}</div>
@@ -87,10 +87,10 @@ export default class InfoPhotoLightbox extends Component {
   }
 }
 
-InfoPhotoLightbox.propTypes = {
+PhotoLightboxInfo.propTypes = {
   location: PropTypes.shape({}),
 };
 
-InfoPhotoLightbox.defaultProps = {
+PhotoLightboxInfo.defaultProps = {
   location: {},
 };
