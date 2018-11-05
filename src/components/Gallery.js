@@ -5,8 +5,9 @@ import ReactPaginate from 'react-paginate';
 import Photo from './Photo';
 import PhotoLightbox from './PhotoLightbox';
 import './pagination.css';
+import { searchPhotos } from '../utils/flickr_api';
 
-const rangePage = 6;
+const photosPerPage = 6;
 
 const PhotosContainer = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ export default class Gallery extends Component {
       ligthboxIsOpen: false,
       lightboxPhotoIndex: -1,
       pageNumber: 1,
-      totalPages: 0,
+      pagesCount: 0,
     };
 
     this.openLightBox = this.openLightBox.bind(this);
@@ -39,26 +40,11 @@ export default class Gallery extends Component {
     this.getPhotos(pageNumber);
   }
 
-  getPhotos(nextPageNumber) {
-    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${process.env.FLICKR_API_KEY}&tags=nyc&per_page=${rangePage}&page=${nextPageNumber}&format=json&content_type=1&nojsoncallback=1&license=1,2,3,4,5,6,7,8,9,10&extras=count_comments,count_faves,url_z&sort=interestingness-desc`;
-    fetch(url)
-      .then(response => response.json())
-      .then((jsonResponse) => {
-        const picArray = jsonResponse.photos.photo.map(pic => ({
-          title: pic.title,
-          owner: pic.owner,
-          id: pic.id,
-          imageUrl: pic.url_z,
-          count_comments: pic.count_comments,
-          count_faves: pic.count_faves,
-        }));
-        this.setState({
-          photos: picArray,
-          totalPages: jsonResponse.photos.pages,
-          pageNumber: nextPageNumber,
-        });
-      })
-      .catch(error => console.error(error));
+  getPhotos(pageNumber) {
+    searchPhotos(photosPerPage)
+      .then((searchResult) => {
+        this.setState(searchResult);
+      });
   }
 
   openLightBox(photoId) {
@@ -78,12 +64,12 @@ export default class Gallery extends Component {
   }
 
   renderPagination() {
-    const { totalPages } = this.state;
+    const { pagesCount } = this.state;
     return (
       <ReactPaginateContainer>
         <ReactPaginate
           containerClassName="pagination"
-          pageCount={totalPages}
+          pageCount={pagesCount}
           breakLabel={<a href="">...</a>}
           marginPagesDisplayed={0}
           pageRangeDisplayed={2}
@@ -107,15 +93,13 @@ export default class Gallery extends Component {
         <h1>Gallery</h1>
         <PhotosContainer>
           <Columns queries={queries}>
-            {photos.map((photo) => {
-              return (
-                <Photo
-                  photo={photo}
-                  key={photo.id}
-                  onImageClick={this.openLightBox}
-                />
-              );
-            })}
+            {photos.map(photo => (
+              <Photo
+                photo={photo}
+                key={photo.id}
+                onImageClick={this.openLightBox}
+              />
+            ))}
           </Columns>
         </PhotosContainer>
         {this.renderPagination()}

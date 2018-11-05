@@ -15,17 +15,12 @@ export default class InfoPhotoLightbox extends Component {
   static getLocation(props) {
     let { location } = props;
     if (location) {
-      location = '';
       const { locality, country } = location;
-      if (locality) {
-        location += locality._content;
+      location = (locality || '');
+      if (locality && country) {
+        location += ', ';
       }
-      if (country) {
-        if (locality) {
-          location += ', ';
-        }
-        location += country._content;
-      }
+      location += (country || '');
     }
     return location;
   }
@@ -50,11 +45,7 @@ export default class InfoPhotoLightbox extends Component {
     const { tags } = props;
     let row = '';
     if (tags) {
-      const tagsToRender = tags
-        .tag
-        .slice(0, 3)
-        .map(tag => tag._content)
-        .join(', ');
+      const tagsToRender = tags.slice(0, 3).join(', ');
       row += `🏷️ ${tagsToRender}`;
     }
     return row;

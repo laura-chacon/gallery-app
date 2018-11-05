@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FaStar, FaComment } from 'react-icons/fa';
+import { getUsername } from '../utils/flickr_api';
 
 const PhotoContainer = styled.div`
   margin: 10px;
@@ -92,13 +93,10 @@ export default class Photo extends Component {
 
   componentDidMount() {
     const { photo } = this.props;
-    const url = `https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=${process.env.FLICKR_API_KEY}&user_id=${photo.owner}&format=json&nojsoncallback=1`;
-    fetch(url)
-      .then(response => response.json())
-      .then((jsonResponse) => {
-        this.setState({ username: jsonResponse.person.username._content });
-      })
-      .catch(error => console.error(error));
+    getUsername(photo.owner)
+      .then((username) => {
+        this.setState({ username });
+      });
   }
 
   onMouseEnter() {
@@ -142,9 +140,9 @@ export default class Photo extends Component {
     return (
       <FavsAndComments>
         <FaStar />
-        <Comments>{photo.count_comments}</Comments>
+        <Comments>{photo.commentsCount}</Comments>
         <FaComment />
-        <Faves>{photo.count_faves}</Faves>
+        <Faves>{photo.favesCount}</Faves>
       </FavsAndComments>
     );
   }
@@ -186,8 +184,8 @@ Photo.propTypes = {
     owner: PropTypes.string,
     id: PropTypes.string,
     imageUrl: PropTypes.string,
-    count_comments: PropTypes.string,
-    count_faves: PropTypes.string,
+    commentsCount: PropTypes.string,
+    favesCount: PropTypes.string,
   }),
   onImageClick: PropTypes.func,
 };
