@@ -52,16 +52,16 @@ export default class PhotoLightboxInfo extends Component {
   }
 
   static getThirdRow(props) {
-    const { countComments, countFaves } = props;
+    const { commentsCount, favesCount } = props;
     let row = '';
-    if (countComments) {
-      row += `💬 ${countComments}`;
+    if (commentsCount) {
+      row += `💬 ${commentsCount}`;
     }
-    if (countFaves) {
-      if (countComments) {
+    if (favesCount) {
+      if (commentsCount) {
         row += ' ― ';
       }
-      row += `⭐ ${countFaves}`;
+      row += `⭐ ${favesCount}`;
     }
     return row;
   }

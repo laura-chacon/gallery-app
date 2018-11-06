@@ -44,8 +44,8 @@ export default class PhotoLightbox extends Component {
             date={date}
             tags={tags}
             description={description}
-            countComments={photo.commentsCount}
-            countFaves={photo.favesCount}
+            commentsCount={photo.commentsCount}
+            favesCount={photo.favesCount}
           />)}
         onCloseRequest={() => onClose()}
         enableZoom={false}

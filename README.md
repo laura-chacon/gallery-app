@@ -15,3 +15,8 @@ npm install
 export FLICKR_API_KEY=YOUR_FLICKR_API_KEY
 npm start
 ```
+
+## Run tests
+```
+npm test
+```
