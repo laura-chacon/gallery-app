@@ -23,3 +23,24 @@ test('All props set', () => {
   expect(wrapper.find('div').at(2)).toHaveText('💬 20 ― ⭐ 10');
   expect(wrapper.find('div').at(3)).toHaveText('sagrada familia');
 });
+
+test('Empty props', () => {
+  const props = {};
+  const wrapper = shallow(<PhotoLightboxInfo {...props} />);
+  expect(wrapper.find('div')).toHaveLength(4);
+  expect(wrapper.find('div').at(0)).toHaveText('');
+  expect(wrapper.find('div').at(1)).toHaveText('');
+  expect(wrapper.find('div').at(2)).toHaveText('');
+  expect(wrapper.find('div').at(3)).toHaveText('');
+});
+
+test('Some empty props', () => {
+  const props = {
+    date: '2018',
+    location: {
+      country: 'Spain',
+    },
+  };
+  const wrapper = shallow(<PhotoLightboxInfo {...props} />);
+  expect(wrapper.find('div').at(0)).toHaveText('📍 Spain ― 📅 2018');
+});
