@@ -4,7 +4,6 @@ import Columns from 'react-columns';
 import ReactPaginate from 'react-paginate';
 import Photo from './Photo';
 import PhotoLightbox from './PhotoLightbox';
-import './index.css';
 import { searchPhotos } from '../utils/flickr_api';
 
 const photosPerPage = 15;
