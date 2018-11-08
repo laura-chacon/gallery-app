@@ -19,6 +19,17 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
+function queryStringToObject(qs) {
+  return qs
+    .split('&')
+    .reduce((acc, keyValue) => {
+      const key = decodeURIComponent(keyValue.split('=')[0]);
+      const value = decodeURIComponent(keyValue.split('=')[1]);
+      acc[key] = value;
+      return acc;
+    }, {});
+}
+
 function mockFlickrResponse() {
   const photos = [0, 1, 2]
     .map(i => ({
@@ -69,6 +80,10 @@ test('Basic gallery layout', async () => {
     pageCount: 15,
   });
   expect(wrapper.find(PhotoLightbox)).toHaveLength(0);
+  const queryString = queryStringToObject(
+    new URL(fetchMock.lastUrl()).search,
+  );
+  expect(queryString.page).toBe('1');
 });
 
 test('Open lightbox', async () => {
