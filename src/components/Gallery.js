@@ -89,6 +89,7 @@ export default class Gallery extends Component {
     }];
     return (
       <div>
+        {this.renderPagination()}
         <PhotosContainer>
           <Columns queries={queries}>
             {photos.map(photo => (
@@ -100,7 +101,6 @@ export default class Gallery extends Component {
             ))}
           </Columns>
         </PhotosContainer>
-        {this.renderPagination()}
         {ligthboxIsOpen
           ? (
             <PhotoLightbox
