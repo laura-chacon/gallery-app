@@ -89,7 +89,6 @@ export default class Gallery extends Component {
     }];
     return (
       <div>
-        <h1>Gallery</h1>
         <PhotosContainer>
           <Columns queries={queries}>
             {photos.map(photo => (
